@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @auction.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @auction.description %>
+</p>
+
+<p>
+  <strong>Ends on:</strong>
+  <%= @auction.ends_on %>
+</p>
+
+<p>
+  <strong>Reserve price:</strong>
+  <%= @auction.reserve_price %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @auction.user_id %>
+</p>
+
+<p>
+  <strong>Current price:</strong>
+  <%= @auction.current_price %>
+</p>
+
+<p>
+  <strong>Aasm state:</strong>
+  <%= @auction.aasm_state %>
+</p>
+
+<%= link_to 'Edit', edit_auction_path(@auction) %> |
+<%= link_to 'Back', auctions_path %>
