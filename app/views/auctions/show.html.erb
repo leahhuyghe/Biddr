@@ -23,9 +23,12 @@
     <p>Bids:</p>
     <div class="bids">
       <% @bids.each do |bid| %>
-                    <%= render partial: "/bids/bids", locals: {bid: bid} %>
+                    <%= render partial: "/bids/new", locals: {bid: bid} %>
                <% end %>
     </div>
   <% end %>
+
+
+  <%= link_to 'Back', auctions_path %>
 
 </div>

@@ -23,7 +23,7 @@ class AuctionsController < ApplicationController
   end
 
   def create
-    @auction = current_user.auctions.new(auction_params)
+    @auction = Auction.new(auction_params)
     if @auction.save
       redirect_to auction_path(@auction), notice: "Auction Created"
     else
@@ -33,7 +33,7 @@ class AuctionsController < ApplicationController
   end
 
   def update
-      @auction = current_user.auctions.find params[:id]
+        @auction = Auction.find params[:id]
       if @auction.update(auction_params)
         redirect_to auction_path(@auction), notice: "Auction Updated"
       else
@@ -43,7 +43,7 @@ class AuctionsController < ApplicationController
     end
 
     def destroy
-      @auction = current_user.auctions.find params[:id]
+      @auction = Auction.find params[:id]
       @auction.destroy
       redirect_to auctions_path, alert: "Auction deleted"
     end
@@ -56,6 +56,6 @@ class AuctionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def auction_params
-      params.require(:auction).permit(:title, :description, :ends_on, :reserve_price, :user_id, :current_price, :aasm_state, :auction_id)
+      params.require(:auction).permit(:title, :description, :ends_on, :reserve_price, :user_id, :current_price)
     end
 end

@@ -1,6 +1,6 @@
 class CloseAuctionController < ApplicationController
 
-def create
+def index
   auction = Auction.find params[:auction_id]
   auction.close
   if auction.save
