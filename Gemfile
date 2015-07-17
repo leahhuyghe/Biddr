@@ -16,6 +16,7 @@ gem 'cancancan'
 gem 'simple_form'
 gem 'aasm'
 gem 'bootstrap-sass'
+gem 'bootstrap'
 
 
 group :development, :test do

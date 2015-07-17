@@ -10,6 +10,7 @@ class AuctionsController < ApplicationController
   # GET /auctions/1
   # GET /auctions/1.json
   def show
+    @auction = Auction.find(params[:id])
   end
 
   # GET /auctions/new
@@ -51,8 +52,6 @@ class AuctionsController < ApplicationController
     end
   end
 
-  # DELETE /auctions/1
-  # DELETE /auctions/1.json
   def destroy
     @auction.destroy
     respond_to do |format|
