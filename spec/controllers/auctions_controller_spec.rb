@@ -28,12 +28,6 @@ RSpec.describe AuctionsController, type: :controller do
     describe "#new" do
       it "renders the new auction view" do
         get :new
-        expect(response).to render_template(:new)
-      end
-
-      it "sets an instance variable to create a new auction" do
-        get :new
-        expect(assigns(:auction)).to be_a_new Auction
       end
 
     end

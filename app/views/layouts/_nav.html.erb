@@ -5,13 +5,13 @@
       <li role="presentation"><%= link_to "New Auction", new_auction_path %></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <!-- <%# if user_signed_in? %>
-      <li>Hello <%#= current_user.username %></li>
-      <%#= link_to "Logout", sessions_path, method: :delete, data: {confirm: "You sure you want to log out?"} %>
-      <%# else %> -->
+      <% if user_signed_in? %>
+      <li>Hello <%= current_user.username %></li>
+      <%= link_to "Logout", sessions_path, method: :delete, data: {confirm: "You sure you want to log out?"} %>
+      <% else %>
       <li role="presentation"><%= link_to "Sign Up", new_user_path %></li>
       <li role="presentation"><%= link_to "Sign In", new_session_path %></li>
-      <!-- <%# end %> -->
+      <% end %>
     </ul>
   </div>
 </nav>

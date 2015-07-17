@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 # Specs in this file have access to a helper object that includes
-# the CloseAuctionHelper. For example:
+# the SessionsHelper. For example:
 #
-# describe CloseAuctionHelper do
+# describe SessionsHelper do
 #   describe "string concat" do
 #     it "concats two strings with spaces" do
 #       expect(helper.concat_strings("this","that")).to eq("this that")
 #     end
 #   end
 # end
-RSpec.describe CloseAuctionHelper, type: :helper do
+RSpec.describe SessionsHelper, type: :helper do
 end

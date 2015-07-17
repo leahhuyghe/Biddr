@@ -1,6 +1,6 @@
 class AuctionsController < ApplicationController
   before_action :set_auction, only: [:show, :edit, :update, :destroy]
-  # before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show]
 
   def index
     @auctions = Auction.all
@@ -22,12 +22,10 @@ class AuctionsController < ApplicationController
   def edit
   end
 
-  # POST /auctions
-  # POST /auctions.json
   def create
-      @auction = current_user.auctions.new(auction_params)
+    @auction = current_user.auctions.new(auction_params)
     if @auction.save
-      redirect_to auction_path(@auction), flash[:alert] = "Auction created"
+      redirect_to auction_path(@auction), notice: "Auction Created"
     else
       render :new
       flash[:alert] = "Sorry...something went wrong"
@@ -35,24 +33,20 @@ class AuctionsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
+      @auction = current_user.auctions.find params[:id]
       if @auction.update(auction_params)
-        format.html { redirect_to @auction, notice: 'Auction was successfully updated.' }
-        format.json { render :show, status: :ok, location: @auction }
+        redirect_to auction_path(@auction), notice: "Auction Updated"
       else
-        format.html { render :edit }
-        format.json { render json: @auction.errors, status: :unprocessable_entity }
+        render :edit
+        flash[:alert] = "Sorry...something went wrong"
       end
     end
-  end
 
-  def destroy
-    @auction.destroy
-    respond_to do |format|
-      format.html { redirect_to auctions_url, notice: 'Auction was successfully destroyed.' }
-      format.json { head :no_content }
+    def destroy
+      @auction = current_user.auctions.find params[:id]
+      @auction.destroy
+      redirect_to auctions_path, alert: "Auction deleted"
     end
-  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
