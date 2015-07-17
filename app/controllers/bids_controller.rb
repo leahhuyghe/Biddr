@@ -1,8 +1,32 @@
 class BidsController < ApplicationController
   before_action :set_bid, only: [:show, :edit, :update, :destroy]
 
-  # GET /bids
-  # GET /bids.json
+  def create
+      @auction = Auction.find params[:auction_id]
+      @bid = Bid.new(bid_params)
+      @bid.auction = @auction
+
+      respond_to do |format|
+        if @auction.bids.any?
+          @current_price = @auction.bids.highest_bid_so_far + 1
+          if @bid.price <= @current_price
+            format.html { redirect_to auction_path(@auction), alert:
+                      "Make a bid bigger than the current price"}
+          else
+            @bid.save
+            format.html { redirect_to auction_path(@auction), notice:
+                                            "Bid Created" }
+            format.js { render }
+          end
+        else
+          @current_price = @bid.price + 1
+          @bid.save
+          format.html { redirect_to auction_path(@auction) }
+          format.js { render }
+        end
+      end
+  end
+
   def index
     @bids = Bid.all
   end
@@ -23,19 +47,7 @@ class BidsController < ApplicationController
 
   # POST /bids
   # POST /bids.json
-  def create
-    @bid = Bid.new(bid_params)
 
-    respond_to do |format|
-      if @bid.save
-        format.html { redirect_to @bid, notice: 'Bid was successfully created.' }
-        format.json { render :show, status: :created, location: @bid }
-      else
-        format.html { render :new }
-        format.json { render json: @bid.errors, status: :unprocessable_entity }
-      end
-    end
-  end
 
   # PATCH/PUT /bids/1
   # PATCH/PUT /bids/1.json
@@ -62,13 +74,13 @@ class BidsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_bid
       @bid = Bid.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def bid_params
-      params.require(:bid).permit(:price, :higher_or_lower, :winning_bid, :auction_id, :user_id)
+      params.require(:bid).permit(:price)
     end
+
 end

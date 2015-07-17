@@ -1,45 +1,39 @@
 class AuctionsController < ApplicationController
   before_action :set_auction, only: [:show, :edit, :update, :destroy]
+  # before_action :authenticate_user!, except: [:index, :show]
 
-  # GET /auctions
-  # GET /auctions.json
   def index
     @auctions = Auction.all
   end
 
-  # GET /auctions/1
-  # GET /auctions/1.json
-  def show
-    @auction = Auction.find(params[:id])
-  end
-
-  # GET /auctions/new
   def new
     @auction = Auction.new
   end
 
-  # GET /auctions/1/edit
+  def show
+    @auction = Auction.find params[:id]
+    @bid = Bid.new
+    if @auction.bids.any?
+      @bids = @auction.bids.order_by_highest
+      @current_price = @auction.bids.highest_bid_so_far + 1
+    end
+  end
+
   def edit
   end
 
   # POST /auctions
   # POST /auctions.json
   def create
-    @auction = Auction.new(auction_params)
-
-    respond_to do |format|
-      if @auction.save
-        format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
-        format.json { render :show, status: :created, location: @auction }
-      else
-        format.html { render :new }
-        format.json { render json: @auction.errors, status: :unprocessable_entity }
-      end
+      @auction = current_user.auctions.new(auction_params)
+    if @auction.save
+      redirect_to auction_path(@auction), flash[:alert] = "Auction created"
+    else
+      render :new
+      flash[:alert] = "Sorry...something went wrong"
     end
   end
 
-  # PATCH/PUT /auctions/1
-  # PATCH/PUT /auctions/1.json
   def update
     respond_to do |format|
       if @auction.update(auction_params)
@@ -68,6 +62,6 @@ class AuctionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def auction_params
-      params.require(:auction).permit(:title, :description, :ends_on, :reserve_price, :user_id, :current_price, :aasm_state)
+      params.require(:auction).permit(:title, :description, :ends_on, :reserve_price, :user_id, :current_price, :aasm_state, :auction_id)
     end
 end

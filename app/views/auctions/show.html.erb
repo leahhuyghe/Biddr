@@ -1,39 +1,31 @@
-<%= render partial: 'layouts/nav' %>
-
 <div class="container">
 
-
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @auction.title %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @auction.description %>
-</p>
-
-<p>
-  <strong>Ends on:</strong>
-  <%= @auction.ends_on %>
-</p>
-
-<p>
-  <strong>Reserve price:</strong>
-  <%= @auction.reserve_price %>
-</p>
+  <h2><%= @auction.title %></h2>
+  <p>Description: <%= @auction.description %></p>
+  <p>Reserve Price<%= @auction.reserve_price %></p>
+  <p>Current Price: $<%= @current_price %></p>
 
 
-<p>
-  <strong>Current price:</strong>
-  <%= @auction.current_price %>
-</p>
+      <%= link_to "Reserve Price Met?", auction_close_auction_index_path(@auction), method: :post, class: "btn btn-danger" %>
+
+
+      <h3>Create A Bid</h3>
+
+      <%= form_for @bid, url: auction_bids_path(@auction), remote: true do |f| %>
+        <%= f.text_field :price %>
+        <%= f.submit "Create Bid" %>
+      <% end %>
 
 
 
-<%= link_to 'Edit', edit_auction_path(@auction) %> |
-<%= link_to 'Back', auctions_path %>
+
+  <% if @auction.bids.any? %>
+    <p>Bids:</p>
+    <div class="bids">
+      <% @bids.each do |bid| %>
+                    <%= render partial: "/bids/bids", locals: {bid: bid} %>
+               <% end %>
+    </div>
+  <% end %>
 
 </div>

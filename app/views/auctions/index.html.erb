@@ -1,6 +1,6 @@
 <%= render partial: "layouts/nav" %>
 
-<div class="container">
+<div class="container" style="margin-top: 100px;">
 
 <p id="notice"><%= notice %></p>
 
@@ -23,7 +23,14 @@
       <tr>
         <td><%= auction.title %></td>
         <td><%= auction.description %></td>
-        <td><%= auction.ends_on %></td>
+        <% if auction.ends_on %>
+        <td>Ends On: <%= auction.ends_on %></td>
+        <% end %>
+        <% if auction.bids.any? %>
+        <td>Current Price: $<%= auction.bids.highest_bid_so_far + 1 %></td>
+          <% else %>
+        <td>Current Price: No Bids Yet!</td>
+      <% end %>
         <td><%= auction.reserve_price %></td>
         <td><%= auction.current_price %></td>
         <td><%= link_to 'Show', auction %></td>
