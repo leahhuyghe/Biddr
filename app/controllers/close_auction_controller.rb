@@ -1,8 +1,8 @@
 class CloseAuctionController < ApplicationController
 
-def index
+def create
   auction = Auction.find params[:auction_id]
-  auction.close
+  auction.delete
   if auction.save
     redirect_to auction, notice: "Auction Closed"
   else
@@ -10,6 +10,7 @@ def index
   end
 
 end
+
 
 
 end
